@@ -1,6 +1,6 @@
 const express = require("express");
+const axios = require("axios");
 const app = express();
-const { default: axios } = require("axios");
 const fs = require("file-system");
 const port = 3000;
 
@@ -15,8 +15,7 @@ readFileTxt(); //đọc file
 function checkPrime(n) {
   let flag = 1;
 
-  if (n < 2)
-    return (flag = 0); 
+  if (n < 2) return (flag = 0);
   let i = 2;
   while (i < n) {
     if (n % i == 0) {
@@ -35,7 +34,7 @@ for (let i = 0; i < arrNummber.length; i++) {
   if (checkPrime(arrNummber[i]) == 1) console.log(arrNummber[i]);
 }
 checkPrime(arrNummber);
-console.log(resultPrime);
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -73,6 +72,26 @@ app.get(
     res.send("About us");
   }
 );
+
+function makeRequest() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const config = {
+        method: "get",
+        url: "http://webcode.me",
+      };
+
+      let res = await axios(config);
+      if (res) {
+        resolve(console.log(res.status));
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+makeRequest();
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
